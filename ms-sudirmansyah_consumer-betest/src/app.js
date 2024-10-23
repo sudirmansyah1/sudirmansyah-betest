@@ -1,5 +1,5 @@
 require('dotenv').config();
-const KafkaConsumer = require("./services/consumer.kafka.js");
+const KafkaConsumer = require('./services/consumer.kafka.js');
 require('./config/config.mongo.js');
 const { add } = require('./controllers/User/index.js');
 

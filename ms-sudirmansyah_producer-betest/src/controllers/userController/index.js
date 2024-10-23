@@ -6,5 +6,5 @@ module.exports = {
 	add,
 	getAll,
 	getByIdentityNumber,
-	getByAccountNumber
+	getByAccountNumber,
 };

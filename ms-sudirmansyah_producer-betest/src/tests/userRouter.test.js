@@ -79,10 +79,17 @@ describe('User Controller', () => {
 		it('should return 200 status code when fetching by identity number', async () => {
 			const token = await getAuthToken();
 
-			const userResponse = await makeUserRequest('get', `/user/identity/ff53b3f2-addd-4640-be30-014d3edf3a89`, token);
+			const userResponse = await makeUserRequest(
+				'get',
+				`/user/identity/ff53b3f2-addd-4640-be30-014d3edf3a89`,
+				token
+			);
 
 			expect(userResponse.status).toBe(200);
-			expect(userResponse.body.message).toHaveProperty('identityNumber', "ff53b3f2-addd-4640-be30-014d3edf3a89");
+			expect(userResponse.body.message).toHaveProperty(
+				'identityNumber',
+				'ff53b3f2-addd-4640-be30-014d3edf3a89'
+			);
 		});
 
 		it('should return 404 if user not found when fetching by account number', async () => {
@@ -94,7 +101,11 @@ describe('User Controller', () => {
 		});
 
 		it('should return 401 if no authorization header when fetching by account number', async () => {
-			const userResponse = await makeUserRequest('get', '/user/identity/ff53b3f2-addd-4640-be30-014d3edf3a89', null);
+			const userResponse = await makeUserRequest(
+				'get',
+				'/user/identity/ff53b3f2-addd-4640-be30-014d3edf3a89',
+				null
+			);
 
 			expect(userResponse.status).toBe(401);
 		});

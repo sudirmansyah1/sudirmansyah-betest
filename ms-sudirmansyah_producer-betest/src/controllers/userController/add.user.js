@@ -7,7 +7,7 @@ const producer = new kafkaProducer();
 
 module.exports = async (req, res) => {
 	const { username, emailaddress, password } = req.body;
-	
+
 	const schema = Joi.object({
 		username: Joi.string().required().min(3).max(50).messages({
 			'string.base': 'User name must be a string',

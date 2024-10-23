@@ -1,5 +1,10 @@
 const express = require('express');
-const { add, getAll, getByIdentityNumber, getByAccountNumber} = require('../controllers/userController/index.js');
+const {
+	add,
+	getAll,
+	getByIdentityNumber,
+	getByAccountNumber,
+} = require('../controllers/userController/index.js');
 const authenticateJWT = require('../middleware/authenticateJWTMiddleware.js');
 
 const Router = express.Router();
