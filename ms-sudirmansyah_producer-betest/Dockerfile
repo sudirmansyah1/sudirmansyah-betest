@@ -3,11 +3,13 @@ FROM node:21.6.0-slim
 ENV TZ="Asia/Jakarta"
 
 WORKDIR /usr/src/app
-COPY package*.json ./
+
+COPY ms-sudirmansyah_producer-betest/package*.json ./
+
 RUN npm install
-COPY . .
+
+COPY ms-sudirmansyah_producer-betest/ ./
 
 RUN npm run lint
 
-EXPOSE 3000
 CMD [ "npm", "run", "prod" ]
