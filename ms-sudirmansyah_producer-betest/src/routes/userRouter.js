@@ -11,7 +11,7 @@ const authenticateJWT = require('../middleware/authenticateJWTMiddleware.js');
 
 const Router = express.Router();
 
-Router.post('/', add);
+Router.post('/', authenticateJWT, add);
 Router.put('/:user_id', authenticateJWT, update);
 Router.delete('/:user_id', authenticateJWT, deleteUser);
 Router.get('/all', authenticateJWT, getAll);
