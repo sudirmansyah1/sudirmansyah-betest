@@ -9,7 +9,7 @@ COPY ms-sudirmansyah_producer-betest/package*.json ./
 RUN npm install
 
 COPY ms-sudirmansyah_producer-betest/ ./
-COPY ms-sudirmansyah_producer-betest/.env.production ./.env
+COPY ms-sudirmansyah_producer-betest/.env.production .env
 
 RUN npm run lint
 
