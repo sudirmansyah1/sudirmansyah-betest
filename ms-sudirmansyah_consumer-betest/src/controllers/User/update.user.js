@@ -2,7 +2,6 @@ const User = require('../../models/userModel.js');
 
 module.exports = async (request) => {
     const { user_id, userName, emailAddress, password } = request;
-    console.log(request);
 
     try {
         const updatedUser = await User.updateOne({ id: user_id }, {
