@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../app.js');
 const crypto = require('crypto');
+const User = require('../models/userModel.js');
 
 const generateRandomUserData = () => {
 	const randomUsername = '0x' + crypto.randomBytes(20).toString('hex');
@@ -54,6 +55,101 @@ describe('User Controller', () => {
 				emailaddress: randomEmail,
 				password: 'password',
 			});
+
+			expect(userResponse.status).toBe(401);
+		});
+	});
+
+	describe('PUT /user/:id', () => {
+		let userInfo
+		beforeEach(async () => {
+			const { randomUsername, randomEmail } = generateRandomUserData();
+			const hashedPassword = crypto.createHash('md5').update('password').digest('hex');
+			const accountNumber = Math.floor(Math.random() * 1000000000);
+			const identityNumber = crypto.randomUUID();
+			const user = new User({
+				userName: randomUsername,
+				emailAddress: randomEmail,
+				password: hashedPassword,
+				accountNumber,
+				identityNumber,
+			});
+
+			await user.save();
+			userInfo = user;
+		});
+
+		afterEach(async () => {
+			if (userInfo && userInfo.id) {
+				await User.deleteOne({ id: userInfo.id });
+			}
+		});
+		
+		it('should return 200 status code when update user', async () => {
+			const token = await getAuthToken();
+			const { randomUsername, randomEmail } = generateRandomUserData();
+
+			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, token,
+				{
+					username: randomUsername,
+					emailaddress: randomEmail,
+				}
+			);
+				
+
+			expect(userResponse.status).toBe(200);
+		});
+
+		it('should return 401 if no authorization header when fetching by account number', async () => {
+			const { randomUsername, randomEmail } = generateRandomUserData();
+
+			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, null,
+				{
+					username: randomUsername,
+					emailaddress: randomEmail,
+				}
+			);
+
+			expect(userResponse.status).toBe(401);
+		});
+	});
+	
+	describe('DELETE /user/:id', () => {
+		let userInfo
+		beforeEach(async () => {
+			const { randomUsername, randomEmail } = generateRandomUserData();
+			const hashedPassword = crypto.createHash('md5').update('password').digest('hex');
+			const accountNumber = Math.floor(Math.random() * 1000000000);
+			const identityNumber = crypto.randomUUID();
+			const user = new User({
+				userName: randomUsername,
+				emailAddress: randomEmail,
+				password: hashedPassword,
+				accountNumber,
+				identityNumber,
+			});
+
+			await user.save();
+			userInfo = user;
+		});
+
+		afterEach(async () => {
+			if (userInfo && userInfo.id) {
+				await User.deleteOne({ id: userInfo.id });
+			}
+		});
+		
+		it('should return 200 status code when update user', async () => {
+			const token = await getAuthToken();
+
+			const userResponse = await makeUserRequest('delete', `/user/${userInfo.id}`, token, null);
+			
+			expect(userResponse.status).toBe(200);
+		});
+
+		it('should return 401 if no authorization header when fetching by account number', async () => {
+			const userResponse = await makeUserRequest('delete', `/user/${userInfo.id}`, null, null);
+			
 
 			expect(userResponse.status).toBe(401);
 		});
