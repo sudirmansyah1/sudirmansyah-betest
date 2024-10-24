@@ -11,6 +11,7 @@ const authenticateJWT = (req, res, next) => {
 		req.user = decoded;
 		next();
 	} catch (ex) {
+		console.log(ex.message);
 		return errorResponse(res, 401, 'Invalid token');
 	}
 };

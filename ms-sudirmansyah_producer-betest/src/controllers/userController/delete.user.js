@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 		await producer.produce('user_delete', [
 			{
 				value: JSON.stringify({
-					user_id
+					user_id,
 				}),
 			},
 		]);

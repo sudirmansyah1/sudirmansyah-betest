@@ -61,7 +61,7 @@ describe('User Controller', () => {
 	});
 
 	describe('PUT /user/:id', () => {
-		let userInfo
+		let userInfo;
 		beforeEach(async () => {
 			const { randomUsername, randomEmail } = generateRandomUserData();
 			const hashedPassword = crypto.createHash('md5').update('password').digest('hex');
@@ -84,18 +84,15 @@ describe('User Controller', () => {
 				await User.deleteOne({ id: userInfo.id });
 			}
 		});
-		
+
 		it('should return 200 status code when update user', async () => {
 			const token = await getAuthToken();
 			const { randomUsername, randomEmail } = generateRandomUserData();
 
-			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, token,
-				{
-					username: randomUsername,
-					emailaddress: randomEmail,
-				}
-			);
-				
+			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, token, {
+				username: randomUsername,
+				emailaddress: randomEmail,
+			});
 
 			expect(userResponse.status).toBe(200);
 		});
@@ -103,19 +100,17 @@ describe('User Controller', () => {
 		it('should return 401 if no authorization header when fetching by account number', async () => {
 			const { randomUsername, randomEmail } = generateRandomUserData();
 
-			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, null,
-				{
-					username: randomUsername,
-					emailaddress: randomEmail,
-				}
-			);
+			const userResponse = await makeUserRequest('put', `/user/${userInfo.id}`, null, {
+				username: randomUsername,
+				emailaddress: randomEmail,
+			});
 
 			expect(userResponse.status).toBe(401);
 		});
 	});
-	
+
 	describe('DELETE /user/:id', () => {
-		let userInfo
+		let userInfo;
 		beforeEach(async () => {
 			const { randomUsername, randomEmail } = generateRandomUserData();
 			const hashedPassword = crypto.createHash('md5').update('password').digest('hex');
@@ -138,18 +133,17 @@ describe('User Controller', () => {
 				await User.deleteOne({ id: userInfo.id });
 			}
 		});
-		
+
 		it('should return 200 status code when update user', async () => {
 			const token = await getAuthToken();
 
 			const userResponse = await makeUserRequest('delete', `/user/${userInfo.id}`, token, null);
-			
+
 			expect(userResponse.status).toBe(200);
 		});
 
 		it('should return 401 if no authorization header when fetching by account number', async () => {
 			const userResponse = await makeUserRequest('delete', `/user/${userInfo.id}`, null, null);
-			
 
 			expect(userResponse.status).toBe(401);
 		});
