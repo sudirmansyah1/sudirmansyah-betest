@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 	}
 
 	try {
-		await producer.produce('user_delete', [
+		await producer.produce(`${process.env.KAFKA_TOPIC_PREFIX}user_delete`, [
 			{
 				value: JSON.stringify({
 					user_id,

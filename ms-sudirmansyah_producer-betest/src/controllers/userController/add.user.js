@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 		const accountNumber = Math.floor(Math.random() * 1000000000);
 		const identityNumber = crypto.randomUUID();
 
-		await producer.produce('user_add', [
+		await producer.produce(`${process.env.KAFKA_TOPIC_PREFIX}user_add`, [
 			{
 				value: JSON.stringify({
 					userName: username,
